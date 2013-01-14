@@ -1,0 +1,23 @@
+{
+  "name": "node-bokki",
+  "version": "0.0.0",
+  "description": "self code reviewing tool",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha",
+    "preinstall": "npm link gitteh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blmarket/node-bokki"
+  },
+  "keywords": [
+    "git",
+    "code",
+    "review"
+  ],
+  "author": "blmarket <blmarket@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+  }
+}
