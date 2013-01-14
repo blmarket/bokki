@@ -19,5 +19,7 @@
   "author": "blmarket <blmarket@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "coffee-script": "~1.4.0",
+    "step": "0.0.5"
   }
 }
