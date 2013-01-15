@@ -3,7 +3,13 @@ path = require 'path'
 step = require 'step'
 gitteh = require 'gitteh'
 
-gitteh.openRepository (path.join __dirname, '../'), (err, repo) ->
+config = {
+  repopath: "/home/blmarket/proj/icpc/",
+  refname: "refs/heads/master",
+  path: [ "blmarket", "PenguinEmperor.cpp" ]
+}
+
+gitteh.openRepository (config.repopath), (err, repo) ->
   throw err if err
 
   # for given sha and count, returns up to count tree object of commits 
@@ -24,17 +30,19 @@ gitteh.openRepository (path.join __dirname, '../'), (err, repo) ->
       return callback(err) if err
       pick = _.find(tree.entries, (item) -> item.name == path[0])
       path.shift()
-      return callback(null, pick) if !pick || path.length == 0
+      return callback(new Error("no such object")) if !pick
+      return callback(null, pick) if path.length == 0
       resolve_object pick.id, path, callback
 
-  repo.reference 'refs/heads/master', null, (err, res) ->
+  repo.reference config.refname, null, (err, res) ->
     throw err if err
 
-    track_commit res.target, 10, (err, list) ->
+    track_commit res.target, 1000, (err, list) ->
       throw err if err
+      console.log list
 
-      resolve_object list[1], [ "lib", "app.coffee" ], (err, res) ->
-        console.log err
+      resolve_object list[1], config.path, (err, res) ->
+        return console.log err if err
         console.log res
 
         repo.object res.id, res.type, (err, res) ->
