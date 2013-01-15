@@ -6,7 +6,7 @@ gitteh = require 'gitteh'
 config = {
   repopath: "/home/blmarket/proj/icpc/",
   refname: "refs/heads/master",
-  path: [ "blmarket", "PenguinEmperor.cpp" ]
+  path: [ "blmarket", "RotatingBot.cpp" ]
 }
 
 gitteh.openRepository (config.repopath), (err, repo) ->
@@ -46,7 +46,8 @@ gitteh.openRepository (config.repopath), (err, repo) ->
     track_commit2 res.target, 1000, (err, item) ->
       return if err
       resolve_object item.tree, _.clone(config.path), (err, res) ->
-        return if err || !res
+        # Err, no result or there exists same object...
+        return if err || !res || (list.length > 0 && res.id == list[0].id)
         list.unshift res
     , (err) ->
       console.log err
