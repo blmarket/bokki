@@ -12,17 +12,22 @@ config = {
 gitteh.openRepository (config.repopath), (err, repo) ->
   throw err if err
 
+  track_commit2 = (sha, count, onItem, onEnd) ->
+    return onEnd(null) if count == 0 || !sha
+    repo.object sha, 'commit', (err, commit) ->
+      return onEnd(err) if err
+      onItem(null, commit)
+      track_commit2 commit.parents[0], count-1, onItem, onEnd
+
   # for given sha and count, returns up to count tree object of commits 
   # of ancestors of sha
   track_commit = (sha, count, callback) ->
-    return callback(null, []) if count == 0 || !sha
-    repo.object sha, 'commit', (err, commit) ->
-      return callback(err) if err
-
-      # FIXME: tracking only first parent now, should track all the parents
-      track_commit commit.parents[0], count-1, (err, list) ->
-        list.push commit.tree
-        return callback null, list
+    list = []
+    track_commit2(sha, count, (err, item) ->
+      list.unshift(item.tree) if !err
+    , (err) ->
+      callback(null, list)
+    )
 
   resolve_object = (sha, path, callback) ->
     return callback null, null if !path
@@ -37,27 +42,13 @@ gitteh.openRepository (config.repopath), (err, repo) ->
   repo.reference config.refname, null, (err, res) ->
     throw err if err
 
-    track_commit res.target, 1000, (err, list) ->
-      throw err if err
+    list = []
+    track_commit2 res.target, 1000, (err, item) ->
+      return if err
+      resolve_object item.tree, _.clone(config.path), (err, res) ->
+        return if err || !res
+        list.unshift res
+    , (err) ->
+      console.log err
       console.log list
 
-      resolve_object list[1], config.path, (err, res) ->
-        return console.log err if err
-        console.log res
-
-        repo.object res.id, res.type, (err, res) ->
-          console.log err
-          console.log res
-
-###
-    console.log "commit sha: #{res.target}"
-    repo.object res.target, 'commit', (err, commit) ->
-      throw err if err
-      console.log commit
-
-      console.log "tree: #{commit.tree}"
-      repo.object commit.tree, 'tree', (err, tree) ->
-        throw err if err
-        
-        console.log tree
-###
