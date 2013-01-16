@@ -21,6 +21,8 @@
   "dependencies": {
     "coffee-script": "~1.4.0",
     "step": "0.0.5",
-    "underscore": "~1.4.3"
+    "underscore": "~1.4.3",
+    "express": "~3.0.6",
+    "jade": "~0.28.1"
   }
 }
