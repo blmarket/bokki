@@ -3,5 +3,6 @@ html
   head
     title title
   body
-    p hi there
-    p= JSON.stringify(data)
+    ul
+      each file in data
+        li: pre #{file}

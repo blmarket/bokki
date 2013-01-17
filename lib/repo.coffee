@@ -28,6 +28,24 @@ createRepo = (path, callback) ->
       @repo.reference refname, null, (err, res) =>
         return callback(err) if err
 
+        self = @
+        items = []
+        step( ->
+          self.trackCommit(res.target, 1000, (err, item) ->
+            items.push item
+          , @)
+          return
+        , (err) ->
+          return callback err if err
+          group = @group()
+          for item in items
+            self.resolveObject item.tree, _.clone(path), group()
+          return
+        , (err, list) ->
+          list = _.uniq(_.compact(list), true, (item) -> return item.id)
+          return callback null, list
+        )
+        ###
         list = []
         @trackCommit res.target, 1000, (err, item) =>
           return callback(err) if err
@@ -37,6 +55,7 @@ createRepo = (path, callback) ->
             list.unshift res
         , (err) ->
           callback err, list
+        ###
 
   gitteh.openRepository path, (err, repo) ->
     return callback null, new Repo(repo)
