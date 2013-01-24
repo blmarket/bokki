@@ -11,7 +11,7 @@ createRepo = (path, callback) ->
       return onEnd(null) if count == 0 || !sha
       @repo.object sha, 'commit', (err, commit) =>
         return onEnd(err) if err
-        onItem null, commit
+        onItem null, commit, count
         @trackCommit commit.parents[0], count-1, onItem, onEnd
 
     resolveObject: (sha, path, callback) ->
@@ -28,34 +28,16 @@ createRepo = (path, callback) ->
       @repo.reference refname, null, (err, res) =>
         return callback(err) if err
 
-        self = @
-        items = []
-        step( ->
-          self.trackCommit(res.target, 1000, (err, item) ->
-            items.push item
-          , @)
-          return
-        , (err) ->
-          return callback err if err
-          group = @group()
-          for item in items
-            self.resolveObject item.tree, _.clone(path), group()
-          return
-        , (err, list) ->
-          list = _.uniq(_.compact(list), true, (item) -> return item.id)
-          return callback null, list
-        )
-        ###
-        list = []
-        @trackCommit res.target, 1000, (err, item) =>
+        list = new Array(1001)
+        @trackCommit res.target, 1000, (err, item, index) =>
           return callback(err) if err
           @resolveObject item.tree, _.clone(path), (err, res) ->
             # Err, no result or there exists same object...
-            return if err || !res || (list.length > 0 && res.id == list[0].id)
-            list.unshift res
+            return if err || !res
+            list[index] = res
         , (err) ->
+          list = _.uniq(_.compact(list), true, (item) -> return item.id)
           callback err, list
-        ###
 
   gitteh.openRepository path, (err, repo) ->
     return callback err if err
