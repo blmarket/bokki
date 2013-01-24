@@ -1,19 +1,19 @@
 _ = require 'underscore'
 step = require 'step'
-
-repository = require './repo'
+repository = require './repository'
 
 # I don't like configs are here...
 config = {
-  repopath: "/home/blmarket/Proj/icpc/",
+  repopath: "/home/blmarket/proj/icpc/",
   refname: "refs/heads/master",
-  path: [ "blmarket", "RotatingBot.cpp" ]
+  path: [ "blmarket", "TheSquareRootDilemma.cpp" ]
 }
 
 module.exports.setRoutes = (app) ->
   app.get "/", (req, res, next) ->
     repository.createRepo config.repopath, (err, repo) ->
       return next(err) if err
+      console.log repo
       repo.test config.refname, config.path, (err, data) ->
         return next(err) if err
         step( ->

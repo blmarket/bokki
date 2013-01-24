@@ -58,6 +58,7 @@ createRepo = (path, callback) ->
         ###
 
   gitteh.openRepository path, (err, repo) ->
+    return callback err if err
     return callback null, new Repo(repo)
 
 module.exports.createRepo = createRepo
