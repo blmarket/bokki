@@ -34,6 +34,7 @@ createRepo = (path, callback) ->
             # Err, no result or there exists same object...
             return if err || !res
             list[index] = res
+            list[index].commit = item.id
         , (err) ->
           list = _.uniq(_.compact(list), true, (item) -> return item.id)
           callback err, list

@@ -19,6 +19,7 @@ module.exports.setRoutes = (app) ->
           repo.test config.refname, config.path, callback
 
         (data, callback) ->
+          console.log data
           async.map(data, (item, cb) ->
             repo.repo.object item.id, 'blob', cb
           callback)
