@@ -1,6 +1,5 @@
 _ = require 'underscore'
 path = require 'path'
-step = require 'step'
 gitteh = require 'gitteh'
 
 createRepo = (path, callback) ->
