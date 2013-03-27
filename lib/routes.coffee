@@ -4,7 +4,7 @@ repository = require './repository'
 
 # I don't like configs are here...
 config = {
-  repopath: "/home/blmarket/proj/icpc/",
+  repopath: "/home/blmarket/Proj/icpc/",
   refname: "refs/heads/master",
   path: [ "blmarket", "TheSquareRootDilemma.cpp" ]
 }
@@ -25,5 +25,10 @@ module.exports.setRoutes = (app) ->
           data = _.map(results, (item) ->
             return item.data.toString('utf8')
           )
-          res.render "index.jade", { data: data }
+          res.render "index.jade", {
+            pretty: true,
+            data: JSON.stringify(data)
+              .replace(/\u2028/g, '\\u2028')
+              .replace(/\u2029/g, '\\u2029')
+          }
         )
