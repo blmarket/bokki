@@ -1,0 +1,6 @@
+var config = {
+  repopath: "",
+  refname: ""
+}
+
+module.exports = config;
