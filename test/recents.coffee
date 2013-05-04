@@ -30,6 +30,8 @@ describe 'recent module', ->
       done()
 
   it 'compare 2 shas', (done) ->
-    recents.compareCommit repo, recentsha, expectedoldsha, (err) ->
+    recents.resolveOld repo, recentsha, 100, (err, sha) ->
       should.not.exist(err)
-      done()
+      recents.compareCommit repo, recentsha, sha, (err) ->
+        should.not.exist(err)
+        done()
