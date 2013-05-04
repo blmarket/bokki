@@ -39,21 +39,23 @@ compareCommit = (repo, sha1, sha2, callback) ->
 
       oldEntries = (tree2 && tree2.entries) || []
       oldEntryMap = reduceEntries oldEntries
-      async.each(
+      async.map(
         tree1.entries
         (item, cb) ->
           return cb() if oldEntryMap[item.id]
+          newpath = _.clone(currentpath)
+          newpath.push item.name
           if item.type == 'tree'
             rhs = _.find oldEntries, (iter) ->
               return iter.name == item.name
             rid = null
             if rhs && rhs.type == 'tree'
               rid = rhs.id
-            return compareTrees(currentpath + item.name + '/', item.id, rid, cb)
-          console.log currentpath + item.name
-          return cb()
-        (err) ->
-          callback(err)
+            return compareTrees(newpath, item.id, rid, cb)
+          return cb(null, [ newpath ])
+        (err, res) ->
+          console.log _.compact(res)
+          callback(err, _.compact(res))
       )
 
     async.parallel [
@@ -68,7 +70,7 @@ compareCommit = (repo, sha1, sha2, callback) ->
     (cb2) -> resolveTree(sha2, cb2)
   ], (err, trees) ->
     return callback(err) if err?
-    compareTrees '/', trees[0], trees[1], callback
+    compareTrees [], trees[0], trees[1], callback
 
 #repository.createRepo config.repopath, (err, repo) ->
 #  throw err if err?
