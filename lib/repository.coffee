@@ -7,7 +7,7 @@ createRepo = (path, callback) ->
     constructor: (@repo) ->
 
     trackCommit: (sha, count, onItem, onEnd) ->
-      return onEnd(null) if count == 0 || !sha
+      return onEnd(null, sha) if count == 0 || !sha
       @repo.object sha, 'commit', (err, commit) =>
         return onEnd(err) if err
         onItem null, commit, count
