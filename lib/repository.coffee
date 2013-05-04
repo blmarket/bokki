@@ -2,6 +2,9 @@ _ = require 'underscore'
 path = require 'path'
 gitteh = require 'gitteh'
 
+config = require '../config'
+instance = null
+
 createRepo = (path, callback) ->
   class Repo
     constructor: (@repo) ->
@@ -43,4 +46,12 @@ createRepo = (path, callback) ->
     return callback err if err
     return callback null, new Repo(repo)
 
+getInstance = (callback) ->
+  return callback(null, instance) if instance?
+  createRepo config.repopath, (err, repo) ->
+    return callback(err) if err?
+    instance = repo
+    callback(null, instance)
+
 module.exports.createRepo = createRepo
+module.exports.getInstance = getInstance
