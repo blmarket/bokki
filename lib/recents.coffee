@@ -54,8 +54,12 @@ compareCommit = (repo, sha1, sha2, callback) ->
             return compareTrees(newpath, item.id, rid, cb)
           return cb(null, [ newpath ])
         (err, res) ->
-          console.log _.compact(res)
-          callback(err, _.compact(res))
+          ret = _.reduce(
+            _.compact(res)
+            (ret, item) -> ret.concat(item)
+            []
+          )
+          callback(err, ret)
       )
 
     async.parallel [
