@@ -1,5 +1,6 @@
 require 'mocha'
 should = require 'should'
+_ = require 'underscore'
 
 config = require '../config'
 libs = require '../index'
@@ -34,5 +35,7 @@ describe 'recent module', ->
       should.not.exist(err)
       recents.compareCommit repo, recentsha, sha, (err, files) ->
         should.not.exist(err)
+        files.should.be.an.instanceof(Array)
+        _.each files, (item) -> item.should.be.an.instanceof(Array)
         console.log files
         done()
