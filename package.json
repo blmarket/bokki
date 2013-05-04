@@ -26,5 +26,9 @@
     "jade": "~0.28.1",
     "async": "~0.2.6",
     "request": "~2.16.6"
+  },
+  "devDependencies": {
+    "should": "~1.2.2",
+    "mocha": "~1.9.0"
   }
 }
