@@ -42,8 +42,7 @@ viewFile = (req, res, next) ->
       return next(err) if err?
       data = _.map results, (item) ->
         item.data.toString('utf8')
-      res.render "index.jade", {
-        pretty: true,
+      res.render "viewfile.jade", {
         data: JSON.stringify(data)
           .replace(/\u2028/g, '\\u2028')
           .replace(/\u2029/g, '\\u2029')
