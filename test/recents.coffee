@@ -37,5 +37,4 @@ describe 'recent module', ->
         should.not.exist(err)
         files.should.be.an.instanceof(Array)
         _.each files, (item) -> item.should.be.an.instanceof(Array)
-        console.log files
         done()
