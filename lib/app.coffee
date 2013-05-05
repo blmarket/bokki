@@ -16,6 +16,9 @@ app.configure ->
   app.use express.methodOverride()
   app.use express.cookieParser()
   app.use express.session({ secret: 'node-bokki!ASDLKVJDLKJSFD' })
+  app.use (req, res, next) ->
+    res.locals.pretty = true
+    next()
   app.use app.router
   app.use express.static(path.join(__dirname, '../public'))
 
