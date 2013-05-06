@@ -11,8 +11,13 @@ passport.use(new GithubStrategy(
     callbackURL: 'http://localhost:3000/login/callback'
   }
   (accessToken, refreshToken, profile, done) ->
-    console.log profile
     done(null, profile)
 ))
+
+passport.serializeUser (user, done) ->
+  done(null, user.id)
+
+passport.deserializeUser (id, done) ->
+  User.findById(id, done)
 
 module.exports.passport = passport
