@@ -54,9 +54,8 @@ module.exports.setRoutes = (app) ->
   app.get '/', (req, res, next) -> res.render 'recents.jade'
   app.get "/viewfile/:path", viewFile
   app.get '/login', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) -> res.redirect '/test'
-  app.get '/login/callback', (req, res, next) ->
-    console.log req.param
-    console.log req.params
-
+  app.get '/login/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) ->
+    res.redirect '/status'
+  app.get '/status', (req, res) ->
     res.send 'OK'
 
