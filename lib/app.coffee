@@ -1,5 +1,6 @@
 path = require 'path'
 express = require 'express'
+RedisStore = require('connect-redis')(express)
 
 routes = require './routes'
 passport = require('./passport').passport
@@ -16,7 +17,10 @@ app.configure ->
   app.use express.bodyParser()
   app.use express.methodOverride()
   app.use express.cookieParser()
-  app.use express.session({ secret: 'node-bokki!ASDLKVJDLKJSFD' })
+  app.use express.session({
+    secret: 'node-bokki!ASDLKVJDLKJSFD',
+    store: new RedisStore()
+  })
   app.use passport.initialize()
   app.use passport.session()
   app.use (req, res, next) ->
