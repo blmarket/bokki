@@ -1,4 +1,7 @@
 test:
-	mocha --compilers coffee:coffee-script
+	mocha -r app.js --compilers coffee:coffee-script test/github.coffee
 
-.PHONY: test
+test-all:
+	mocha -r app.js --compilers coffee:coffee-script
+
+.PHONY: test test-all
