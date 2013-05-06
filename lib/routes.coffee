@@ -57,5 +57,6 @@ module.exports.setRoutes = (app) ->
   app.get '/login/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) ->
     res.redirect '/status'
   app.get '/status', (req, res) ->
+    console.log req.user
     res.send 'OK'
 

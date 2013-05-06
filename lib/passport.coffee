@@ -10,14 +10,14 @@ passport.use(new GithubStrategy(
     clientSecret: GITHUB_SECRET,
     callbackURL: 'http://localhost:3000/login/callback'
   }
-  (accessToken, refreshToken, profile, done) ->
-    done(null, profile)
+  (accessToken, refreshToken, profile, done) -> # save access token as userinfo
+    done(null, accessToken)
 ))
 
-passport.serializeUser (user, done) ->
-  done(null, user.id)
+passport.serializeUser (token, done) -> # we don't need other informations
+  done(null, token)
 
-passport.deserializeUser (id, done) ->
-  User.findById(id, done)
+passport.deserializeUser (token, done) -> # session contains only access Token
+  done(null, token)
 
 module.exports.passport = passport
