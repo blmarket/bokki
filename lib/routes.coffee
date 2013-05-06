@@ -49,6 +49,10 @@ viewFile = (req, res, next) ->
           .replace(/\u2029/g, '\\u2029')
       }
 
+checkAuth = (req, res, next) ->
+  return next() if req.isAuthenticated()
+  res.redirect '/login'
+
 module.exports.setRoutes = (app) ->
   app.get '/0/recents', showRecentFiles
   app.get '/', (req, res, next) -> res.render 'recents.jade'
@@ -56,7 +60,6 @@ module.exports.setRoutes = (app) ->
   app.get '/login', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) -> res.redirect '/test'
   app.get '/login/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) ->
     res.redirect '/status'
-  app.get '/status', (req, res) ->
+  app.get '/status', checkAuth, (req, res) ->
     console.log req.user
     res.send 'OK'
-
