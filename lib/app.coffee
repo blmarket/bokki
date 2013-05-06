@@ -2,6 +2,7 @@ path = require 'path'
 express = require 'express'
 
 routes = require './routes'
+passport = require('./passport').passport
 
 app = express()
 
@@ -16,6 +17,8 @@ app.configure ->
   app.use express.methodOverride()
   app.use express.cookieParser()
   app.use express.session({ secret: 'node-bokki!ASDLKVJDLKJSFD' })
+  app.use passport.initialize()
+  app.use passport.session()
   app.use (req, res, next) ->
     res.locals.pretty = true
     next()

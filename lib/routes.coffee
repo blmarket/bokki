@@ -5,6 +5,7 @@ request = require 'request'
 config = require '../config'
 repository = require './repository'
 recents = require './recents'
+passport = require('./passport').passport
 
 showRecentFiles = (req, res, next) ->
   repo = null
@@ -52,3 +53,10 @@ module.exports.setRoutes = (app) ->
   app.get '/0/recents', showRecentFiles
   app.get '/', (req, res, next) -> res.render 'recents.jade'
   app.get "/viewfile/:path", viewFile
+  app.get '/login', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) -> res.redirect '/test'
+  app.get '/login/callback', (req, res, next) ->
+    console.log req.param
+    console.log req.params
+
+    res.send 'OK'
+
