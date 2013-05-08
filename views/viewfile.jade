@@ -4,7 +4,9 @@ block stylesheets
   link(rel="stylesheet", href="http://blmarket.net/~blmarket/jsdifflib/diffview.css")
 
 block contents
-  #diffOutput
+  div(ng-controller="DiffViewCtrl")
+    #commitsha
+    #diffOutput
 
 block scripts
   script(src="http://blmarket.net/~blmarket/jsdifflib/diffview.js")
@@ -16,8 +18,8 @@ block scripts
       
     function update() {
       var left = index - 1; if(left < 0) left = 0;
-      var base = difflib.stringAsLines(data[left]);
-      var other = difflib.stringAsLines(data[index]);
+      var base = difflib.stringAsLines(data[left].code);
+      var other = difflib.stringAsLines(data[index].code);
       
       var sm = new difflib.SequenceMatcher(base, other);
       target.empty();
@@ -30,6 +32,8 @@ block scripts
         contextSize: null,
         viewType: 1
       }));
+
+      $('#commitsha').text(data[index].commit);
     }
     
     $(document).ready(update);  
