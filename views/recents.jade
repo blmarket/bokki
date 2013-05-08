@@ -1,44 +1,30 @@
-doctype 5
-html(ng-app)
-  head
-    meta(charset="utf-8")
-    title TODO: TITLE SHOULD BE HERE
-    link(rel="stylesheet", href="/css/bootstrap.min.css")
-    style(type="text/css")
-      tbody {
-        font-size: 12px;
+extends layout
+
+block contents
+  #list(ng-controller="RecentsCtrl")
+    .row(ng-repeat="file in file_list")
+      p
+        | {{$index}} 
+        a(href="/viewfile/{{encode(file)}}") {{file}}
+
+block scripts
+  script(type="text/javascript")
+    function RecentsCtrl($scope, $http) {
+      function load() {
+        $http.jsonp('/0/recents?callback=JSON_CALLBACK').success(function(data, status) {
+          for(var i=0,len=data.length;i<len;i++) {
+            data[i] = data[i].join('/')
+          }
+          $scope.file_list = data;
+        });
       }
-  body
-    .container(ng-controller="RecentsCtrl")
-      #list
-        .row(ng-repeat="file in file_list")
-          p
-            | {{$index}} 
-            a(href="/viewfile/{{encode(file)}}") {{file}}
 
-    // scripts start here
-    script(src="//code.jquery.com/jquery-1.9.1.min.js")
-    script(src="//code.jquery.com/jquery-migrate-1.1.1.js")
-    script(src="/js/bootstrap.min.js")
-    script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js")
-
-    script(type="text/javascript")
-      function RecentsCtrl($scope, $http) {
-        function load() {
-          $http.jsonp('/0/recents?callback=JSON_CALLBACK').success(function(data, status) {
-            for(var i=0,len=data.length;i<len;i++) {
-              data[i] = data[i].join('/')
-            }
-            $scope.file_list = data;
-          });
-        }
-
-        function encode(path) {
-          return encodeURIComponent(path);
-        }
-
-        $scope.file_list = [];
-        $scope.encode = encode;
-        load();
+      function encode(path) {
+        return encodeURIComponent(path);
       }
-      
+
+      $scope.file_list = [];
+      $scope.encode = encode;
+      load();
+    }
+    
