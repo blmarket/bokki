@@ -35,14 +35,16 @@ viewFile = (req, res, next) ->
         repo.test config.refname, path, callback
 
       (data, callback) ->
-        console.log data
         async.map(data, (item, cb) ->
-          repo.repo.object item.id, 'blob', cb
+          repo.repo.object item.id, 'blob', (err, obj) ->
+            return cb(err) if err?
+            obj.commit = item.commit
+            cb(null, obj)
         callback)
     ], (err, results) ->
       return next(err) if err?
       data = _.map results, (item) ->
-        item.data.toString('utf8')
+        { commit: item.commit, code: item.data.toString('utf8') }
       res.render "viewfile.jade", {
         data: JSON.stringify(data)
           .replace(/\u2028/g, '\\u2028')
