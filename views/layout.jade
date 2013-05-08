@@ -21,24 +21,3 @@ html(ng-app)
     script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js")
 
     block scripts
-
-    script(type="text/javascript")
-      function RecentsCtrl($scope, $http) {
-        function load() {
-          $http.jsonp('/0/recents?callback=JSON_CALLBACK').success(function(data, status) {
-            for(var i=0,len=data.length;i<len;i++) {
-              data[i] = data[i].join('/')
-            }
-            $scope.file_list = data;
-          });
-        }
-
-        function encode(path) {
-          return encodeURIComponent(path);
-        }
-
-        $scope.file_list = [];
-        $scope.encode = encode;
-        load();
-      }
-      
