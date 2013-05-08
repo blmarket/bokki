@@ -1,47 +1,42 @@
-doctype 5
-html
-  head
-    meta(charset="utf-8")
-    title TODO: TITLE SHOULD BE HERE
-    link(rel="stylesheet", href="http://blmarket.net/~blmarket/jsdifflib/diffview.css")
-    style(type="text/css")
-      tbody {
-        font-size: 12px;
-      }
-  body
-    #diffOutput
-    script(src="http://code.jquery.com/jquery.min.js")
-    script(src="http://blmarket.net/~blmarket/jsdifflib/diffview.js")
-    script(src="http://blmarket.net/~blmarket/jsdifflib/difflib.js")
-    script(type="text/javascript")
-      var data = !{data};
-      var index = 0;
-      var target = $('#diffOutput');
-        
-      function update() {
-        var left = index - 1; if(left < 0) left = 0;
-        var base = difflib.stringAsLines(data[left]);
-        var other = difflib.stringAsLines(data[index]);
-        
-        var sm = new difflib.SequenceMatcher(base, other);
-        target.empty();
-        target.append(diffview.buildView({
-          baseTextLines: base,
-          newTextLines: other,
-          opcodes: sm.get_opcodes(),
-          baseTextName: 'Older Version',
-          newTextName: 'Newer Version',
-          contextSize: null,
-          viewType: 1
-        }));
-      }
-      
-      $(document).ready(update);  
-      $(window).keyup(function(ev) {
-        if(ev.keyCode == 37) {
-          index--; if(index < 0) index = 0; update();
-        } else if(ev.keyCode == 39) {
-          index++; if(index >= data.length) index = data.length - 1; update();
-        }
-      });
+extends layout
 
+block stylesheets
+  link(rel="stylesheet", href="http://blmarket.net/~blmarket/jsdifflib/diffview.css")
+
+block contents
+  #diffOutput
+
+block scripts
+  script(src="http://blmarket.net/~blmarket/jsdifflib/diffview.js")
+  script(src="http://blmarket.net/~blmarket/jsdifflib/difflib.js")
+  script(type="text/javascript")
+    var data = !{data};
+    var index = 0;
+    var target = $('#diffOutput');
+      
+    function update() {
+      var left = index - 1; if(left < 0) left = 0;
+      var base = difflib.stringAsLines(data[left]);
+      var other = difflib.stringAsLines(data[index]);
+      
+      var sm = new difflib.SequenceMatcher(base, other);
+      target.empty();
+      target.append(diffview.buildView({
+        baseTextLines: base,
+        newTextLines: other,
+        opcodes: sm.get_opcodes(),
+        baseTextName: 'Older Version',
+        newTextName: 'Newer Version',
+        contextSize: null,
+        viewType: 1
+      }));
+    }
+    
+    $(document).ready(update);  
+    $(window).keyup(function(ev) {
+      if(ev.keyCode == 37) {
+        index--; if(index < 0) index = 0; update();
+      } else if(ev.keyCode == 39) {
+        index++; if(index >= data.length) index = data.length - 1; update();
+      }
+    });
