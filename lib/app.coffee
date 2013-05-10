@@ -25,6 +25,7 @@ app.configure ->
   app.use passport.session()
   app.use (req, res, next) ->
     res.locals.pretty = true
+    res.locals.access_key = req.user || null
     next()
   app.use app.router
   app.use express.static(path.join(__dirname, '../public'))
