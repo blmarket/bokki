@@ -1,6 +1,10 @@
 var config = {
   repopath: "",
-  refname: ""
+  refname: "",
+  repository: {
+    owner: "",
+    name: ""
+  }
 }
 
 module.exports = config;
