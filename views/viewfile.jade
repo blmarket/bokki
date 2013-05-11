@@ -4,9 +4,12 @@ block stylesheets
   link(rel="stylesheet", href="http://blmarket.net/~blmarket/jsdifflib/diffview.css")
 
 block contents
-  div(ng-controller="DiffViewCtrl")
+  div
     #commitsha
     #diffOutput
+    div(ng-controller="CommentsCtrl")
+      {{test}}
+    // #{JSON.stringify(repository)}
 
 block scripts
   script(src="http://blmarket.net/~blmarket/jsdifflib/diffview.js")
@@ -16,6 +19,16 @@ block scripts
     var index = 0;
     var target = $('#diffOutput');
       
+    function CommentsCtrl($scope, $http) {
+      $scope.test = "";
+
+      $http.jsonp(
+        "https://api.github.com/repos/#{repo.owner}/#{repo.name}/commits/3a9b93fa420a279480f871fdec4c2f85b349b705/comments?callback=JSON_CALLBACK"
+      ).success(function(data, status) {
+        $scope.test = data.data;
+      });
+    }
+
     function update() {
       var left = index - 1; if(left < 0) left = 0;
       var base = difflib.stringAsLines(data[left].code);
@@ -44,3 +57,4 @@ block scripts
         index++; if(index >= data.length) index = data.length - 1; update();
       }
     });
+

@@ -46,7 +46,7 @@ viewFile = (req, res, next) ->
       data = _.map results, (item) ->
         { commit: item.commit, code: item.data.toString('utf8') }
       res.render "viewfile.jade", {
-        repository: config.repository
+        repo: config.repository
         data: JSON.stringify(data)
           .replace(/\u2028/g, '\\u2028')
           .replace(/\u2029/g, '\\u2029')
