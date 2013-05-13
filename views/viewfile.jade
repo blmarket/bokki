@@ -8,7 +8,10 @@ block contents
     #commitsha
     #diffOutput
     #comments(ng-controller="CommentsCtrl")
-      {{test}}
+      {{comments}}
+      form
+        textarea
+        input(type="submit")asdf
 
 block scripts
   script(src="http://blmarket.net/~blmarket/jsdifflib/diffview.js")
@@ -19,13 +22,18 @@ block scripts
     var target = $('#diffOutput');
       
     function CommentsCtrl($scope, $http) {
-      $scope.test = "";
+      function update(commit) {
+        $scope.commit = commit;
+        $http.jsonp(
+          "https://api.github.com/repos/#{repo.owner}/#{repo.name}/commits/"+commit+"/comments?callback=JSON_CALLBACK"
+        ).success(function(data, status) {
+          $scope.comments = data.data;
+        });
+      }
 
-      $http.jsonp(
-        "https://api.github.com/repos/#{repo.owner}/#{repo.name}/commits/3a9b93fa420a279480f871fdec4c2f85b349b705/comments?callback=JSON_CALLBACK"
-      ).success(function(data, status) {
-        $scope.test = data.data;
-      });
+      $scope.comments = '';
+      $scope.commit = '';
+      $scope.update = update;
     }
 
     function update() {
@@ -46,6 +54,9 @@ block scripts
       }));
 
       $('#commitsha').text(data[index].commit);
+      angular.element(document.getElementById('comments')).scope().$apply(function(scope) {
+        scope.update(data[index].commit);
+      });
     }
     
     $(document).ready(update);  
