@@ -56,12 +56,14 @@ checkAuth = (req, res, next) ->
   return next() if req.isAuthenticated()
   res.redirect '/login'
 
+tryLogin = passport.authenticate('github', { failureRedirect: '/login', scope: 'public_repo' })
+
 module.exports.setRoutes = (app) ->
   app.get '/0/recents', showRecentFiles
   app.get '/', (req, res, next) -> res.render 'recents.jade'
   app.get "/viewfile/:path", viewFile
-  app.get '/login', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) -> res.redirect '/test'
-  app.get '/login/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) ->
+  app.get '/login', tryLogin, (req, res) -> res.redirect '/test'
+  app.get '/login/callback', tryLogin, (req, res) ->
     res.redirect '/status'
   app.get '/status', checkAuth, (req, res) ->
     console.log req.user
