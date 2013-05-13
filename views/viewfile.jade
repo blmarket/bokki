@@ -8,9 +8,10 @@ block contents
     #commitsha
     #diffOutput
     #comments(ng-controller="CommentsCtrl")
-      {{comments}}
+      div(ng-repeat="comment in comments")
+        {{comment}}
       form(ng-submit="submit()")
-        textarea
+        textarea(ng-model="postcontents")
         input(type="submit")asdf
 
 block scripts
@@ -25,7 +26,8 @@ block scripts
       function update(commit) {
         $scope.commit = commit;
         $http.jsonp(
-          "https://api.github.com/repos/#{repo.owner}/#{repo.name}/commits/"+commit+"/comments?callback=JSON_CALLBACK"
+          "https://api.github.com/repos/#{repo.owner}/#{repo.name}/commits/"+commit+"/comments"+
+          "?access_token=#{access_key}&callback=JSON_CALLBACK"
         ).success(function(data, status) {
           $scope.comments = data.data;
         });
@@ -34,12 +36,12 @@ block scripts
       function submit() {
         if(!($scope.commit)) return;
         $http.post(
-          "https://api.github.com/repos/#{repo.owner}/#{repo.name}/commits/"+$scope.commit+"/comments",
+          "https://api.github.com/repos/#{repo.owner}/#{repo.name}/commits/"+$scope.commit+"/comments?access_token=#{access_key}",
           {
-            access_key: "#{access_key}",
-            body: "nice commit!"
+            body: $scope.postcontents
           }
         ).success(function(data, status) {
+          update($scope.commit);
         });
       }
 
