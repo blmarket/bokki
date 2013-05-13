@@ -9,7 +9,7 @@ block contents
     #diffOutput
     #comments(ng-controller="CommentsCtrl")
       {{comments}}
-      form
+      form(ng-submit="submit()")
         textarea
         input(type="submit")asdf
 
@@ -31,9 +31,22 @@ block scripts
         });
       }
 
+      function submit() {
+        if(!($scope.commit)) return;
+        $http.post(
+          "https://api.github.com/repos/#{repo.owner}/#{repo.name}/commits/"+$scope.commit+"/comments",
+          {
+            access_key: "#{access_key}",
+            body: "nice commit!"
+          }
+        ).success(function(data, status) {
+        });
+      }
+
       $scope.comments = '';
       $scope.commit = '';
       $scope.update = update;
+      $scope.submit = submit;
     }
 
     function update() {
