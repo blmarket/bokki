@@ -7,9 +7,8 @@ block contents
   div
     #commitsha
     #diffOutput
-    div(ng-controller="CommentsCtrl")
+    #comments(ng-controller="CommentsCtrl")
       {{test}}
-    // #{JSON.stringify(repository)}
 
 block scripts
   script(src="http://blmarket.net/~blmarket/jsdifflib/diffview.js")
