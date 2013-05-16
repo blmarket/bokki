@@ -76,7 +76,7 @@ block scripts
       $scope.submit = submit;
     }
 
-    function update() {
+    function update_diff() {
       var left = index - 1; if(left < 0) left = 0;
       var base = difflib.stringAsLines(data[left].code);
       var other = difflib.stringAsLines(data[index].code);
@@ -99,12 +99,12 @@ block scripts
       });
     }
     
-    $(document).ready(update);  
+    $(document).ready(update_diff);  
     $(window).keyup(function(ev) {
       if(ev.keyCode == 37) {
-        index--; if(index < 0) index = 0; update();
+        index--; if(index < 0) index = 0; update_diff();
       } else if(ev.keyCode == 39) {
-        index++; if(index >= data.length) index = data.length - 1; update();
+        index++; if(index >= data.length) index = data.length - 1; update_diff();
       }
     });
 
