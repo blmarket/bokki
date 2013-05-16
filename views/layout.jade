@@ -5,12 +5,23 @@ html(ng-app)
     title TODO: TITLE SHOULD BE HERE
     link(rel="stylesheet", href="/css/bootstrap.min.css")
     style(type="text/css")
+      body {
+        padding-top: 60px;
+      }
+
       tbody {
         font-size: 12px;
       }
     block stylesheets
 
   body
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          a.brand(href="/") Bokki
+          ul.nav
+            li.active: a(href="#") some item
+            li: a(href="#") other items
     .container
       block contents
 
