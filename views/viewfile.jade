@@ -15,17 +15,19 @@ block contents
       li Show Diff only 옵션 추가하기
       li Coder Comments가 화면 하단이 아니라 오른쪽에 보이도록 하고. Markdown으로 markup하기
       li 다른 사람의 댓글들은 계속 화면 하단에 보이도록 하는 건 어떨까?
-  div
-    #commitsha
-    #diffOutput
-    #comments(ng-controller="CommentsCtrl")
-      ul.comments_list
-        li(ng-repeat="comment in comments")
-          {{comment.body}} by {{comment.user.login}}
-          img(src="{{comment.user.avatar_url}}")
-      form(ng-submit="submit()")
-        textarea(ng-model="postcontents")
-        input(type="submit")asdf
+  #commitsha
+  .row
+    .span8
+      #diffOutput
+    .span4
+      #comments(ng-controller="CommentsCtrl")
+        ul.comments_list
+          li(ng-repeat="comment in comments")
+            {{comment.body}} by {{comment.user.login}}
+            img(src="{{comment.user.avatar_url}}")
+        form(ng-submit="submit()")
+          textarea(ng-model="postcontents")
+          input(type="submit")asdf
 
 block scripts
   script(src="http://blmarket.net/~blmarket/jsdifflib/diffview.js")
