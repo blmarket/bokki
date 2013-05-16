@@ -35,8 +35,8 @@ block contents
             {{comment.body}} by {{comment.user.login}}
             img(src="{{comment.user.avatar_url}}")
         form(ng-submit="submit()")
+          input(type="submit") 댓글 달기
           textarea(ng-model="postcontents")
-          input(type="submit")asdf
 
 block scripts
   script(src="http://blmarket.net/~blmarket/jsdifflib/diffview.js")
