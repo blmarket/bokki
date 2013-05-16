@@ -8,6 +8,17 @@ block stylesheets
       height: 50px;
     }
 
+    #comments {
+      height: 100%;
+    }
+    #comments form {
+      height: 100%;
+    }
+    #comments textarea {
+      width: 100%;
+      height: 100%;
+    }
+
 block contents
   div
     h2 해야할 일
@@ -17,10 +28,8 @@ block contents
       li 다른 사람의 댓글들은 계속 화면 하단에 보이도록 하는 건 어떨까?
   #commitsha
   .row
-    .span8
-      #diffOutput
-    .span4
-      #comments(ng-controller="CommentsCtrl")
+    #diffOutput.span8
+    #comments.span4(ng-controller="CommentsCtrl")
         ul.comments_list
           li(ng-repeat="comment in comments")
             {{comment.body}} by {{comment.user.login}}
@@ -98,4 +107,16 @@ block scripts
         index++; if(index >= data.length) index = data.length - 1; update();
       }
     });
+
+    function adjustHeight() {
+      var t1 = $('#diffOutput');
+      var t2 = $('#comments');
+
+      var diff = t1.height() - t2.height();
+      if(diff === 0) return;
+      var t3 = $('#comments textarea');
+      t3.height(t3.height() + diff);
+    }
+
+    window.setInterval(adjustHeight, 250);
 
