@@ -29,6 +29,7 @@ block contents
         |  Markdown으로 markup하기
       li 다른 사람의 댓글들은 계속 화면 하단에 보이도록 하는 건 어떨까?
       li 가장 최근에 수정된 파일부터 순서대로 배치하도록 하자.
+  input#fulldiff(type="checkbox")
   #commitsha
   .row
     #diffOutput.span8
@@ -83,6 +84,9 @@ block scripts
       var left = index - 1; if(left < 0) left = 0;
       var base = difflib.stringAsLines(data[left].code);
       var other = difflib.stringAsLines(data[index].code);
+      var contextSize = $('#fulldiff').prop("checked") ? null : 5;
+
+      console.log(contextSize);
       
       var sm = new difflib.SequenceMatcher(base, other);
       target.empty();
@@ -92,7 +96,7 @@ block scripts
         opcodes: sm.get_opcodes(),
         baseTextName: 'Older Version',
         newTextName: 'Newer Version',
-        contextSize: null,
+        contextSize: contextSize,
         viewType: 1
       }));
 
@@ -103,6 +107,7 @@ block scripts
     }
     
     $(document).ready(update_diff);  
+    $('#fulldiff').change(update_diff);
     $(window).keyup(function(ev) {
       if(ev.keyCode == 37) {
         index--; if(index < 0) index = 0; update_diff();
