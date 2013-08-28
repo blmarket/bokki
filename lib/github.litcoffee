@@ -14,6 +14,7 @@ GitHub에서 제공하는 Comments API를 CoffeeScript 함수로 wrapping.
     listComments = (params, cb) ->
       # GitHub 홈페이지에서 제공하는 API skeleton
       url = 'https://api.github.com/repos/:owner/:repo/commits/:sha/comments'
+      url = url.replace /:(\w+)/g, (txt, key) ->
 
 
 ## 외부 연결 함수
