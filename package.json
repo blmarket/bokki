@@ -28,7 +28,8 @@
     "request": "~2.16.6",
     "passport": "~0.1.16",
     "passport-github": "~0.1.5",
-    "connect-redis": "~1.4.5"
+    "connect-redis": "~1.4.5",
+    "gitteh": "git://github.com/libgit2/node-gitteh.git"
   },
   "devDependencies": {
     "should": "~1.2.2",
