@@ -26,7 +26,7 @@ createRepo = (path, callback) ->
         return callback(null, pick) if path.length == 0
         @resolveObject pick.id, path, callback
 
-    test: (refname, path, callback) ->
+    trackPath: (refname, path, callback) ->
       @repo.reference refname, null, (err, res) =>
         return callback(err) if err
 

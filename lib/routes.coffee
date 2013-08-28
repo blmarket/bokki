@@ -32,7 +32,7 @@ viewFile = (req, res, next) ->
     return next(err) if err?
     async.waterfall [
       (callback) ->
-        repo.test config.refname, path, callback
+        repo.trackPath config.refname, path, callback
 
       (data, callback) ->
         async.map(data, (item, cb) ->
