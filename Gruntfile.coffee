@@ -7,7 +7,7 @@ module.exports = (grunt) ->
           bare: true
         }
         files: {
-          'public/bokki.js': 'lib/web/bokki.litcoffee'
+          'public/base.js': 'lib/web/bokki.litcoffee'
         }
       }
     }
@@ -15,11 +15,10 @@ module.exports = (grunt) ->
       options: { separator: ';' }
       dist: {
         src: [
-          'public/collector/ba-postmessage.min.js'
-          'public/collector/mall.js'
-          'public/dist/plugin.js'
+          'node_modules/async/lib/async.js'
+          'public/base.js'
         ]
-        dest: 'public/dist/production.js'
+        dest: 'public/bokki.js'
       }
     }
     uglify: {
@@ -49,10 +48,10 @@ module.exports = (grunt) ->
   }
 
   grunt.loadNpmTasks 'grunt-contrib-coffee'
-  # grunt.loadNpmTasks 'grunt-contrib-concat'
+  grunt.loadNpmTasks 'grunt-contrib-concat'
   # grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-jade'
 
   # grunt.registerTask 'uncompressed', [ 'coffee', 'concat' ]
-  grunt.registerTask 'default', [ 'coffee', 'jade' ]
+  grunt.registerTask 'default', [ 'coffee', 'jade', 'concat' ]
 

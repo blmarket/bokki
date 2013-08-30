@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha",
-    "preinstall": "npm link gitteh"
+    "prepublish": "grunt"
   },
   "repository": {
     "type": "git",
@@ -24,12 +24,11 @@
     "underscore": "~1.4.4",
     "express": "~3.0.6",
     "jade": "~0.28.1",
-    "async": "~0.2.6",
+    "async": "~0.2.9",
     "request": "~2.16.6",
     "passport": "~0.1.16",
     "passport-github": "~0.1.5",
-    "connect-redis": "~1.4.5",
-    "gitteh": "git://github.com/libgit2/node-gitteh.git"
+    "connect-redis": "~1.4.5"
   },
   "devDependencies": {
     "should": "~1.2.2",
@@ -40,6 +39,7 @@
     "grunt-cli": "~0.1.9",
     "grunt": "~0.4.1",
     "grunt-contrib-coffee": "~0.7.0",
-    "grunt-contrib-jade": "~0.8.0"
+    "grunt-contrib-jade": "~0.8.0",
+    "grunt-contrib-concat": "~0.3.0"
   }
 }
