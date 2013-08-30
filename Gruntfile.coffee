@@ -4,7 +4,7 @@ module.exports = (grunt) ->
     coffee: {
       compile: {
         options: {
-          bare: false
+          bare: true
         }
         files: {
           'public/bokki.js': 'lib/web/bokki.litcoffee'
