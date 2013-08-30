@@ -1,6 +1,6 @@
 {
   "name": "node-bokki",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "self code reviewing tool",
   "main": "app.js",
   "scripts": {
