@@ -6,6 +6,7 @@ config = require '../config'
 repository = require './repository'
 recents = require './recents'
 passport = require('./passport').passport
+github = require './github'
 
 showRecentFiles = (req, res, next) ->
   repo = null
@@ -64,3 +65,13 @@ module.exports.setRoutes = (app) ->
   app.get "/viewfile/:path", viewFile
   app.get '/login', tryLogin, (req, res) -> res.redirect '/'
   app.get '/login/callback', tryLogin, (req, res) -> res.redirect '/'
+
+  app.get /^\/github\/(\w+)\/(\w+)\/(.+)/, (req, res) ->
+    github.findCommits {
+      owner: req.params[0]
+      repo: req.params[1]
+      query: {
+        path: req.params[2]
+      }
+    }, (err, resp) ->
+      res.jsonp(resp)
