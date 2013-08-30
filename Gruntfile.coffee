@@ -7,7 +7,7 @@ module.exports = (grunt) ->
           bare: false
         }
         files: {
-          'public/dist/plugin.js': 'public/collector/plugin.coffee'
+          'public/bokki.js': 'lib/web/bokki.litcoffee'
         }
       }
     }
@@ -42,17 +42,17 @@ module.exports = (grunt) ->
           pretty: true
         }
         files: {
-          'public/dist/example.html': [ 'docs/example.jade' ]
+          'public/main.html': [ 'views/main.jade' ]
         }
       }
     }
   }
 
   grunt.loadNpmTasks 'grunt-contrib-coffee'
-  grunt.loadNpmTasks 'grunt-contrib-concat'
-  grunt.loadNpmTasks 'grunt-contrib-uglify'
+  # grunt.loadNpmTasks 'grunt-contrib-concat'
+  # grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-jade'
 
-  grunt.registerTask 'uncompressed', [ 'coffee', 'concat' ]
-  grunt.registerTask 'default', [ 'coffee', 'uglify' ] # uglify supports concat, so we don't use it.
+  # grunt.registerTask 'uncompressed', [ 'coffee', 'concat' ]
+  grunt.registerTask 'default', [ 'coffee', 'jade' ]
 
