@@ -7,7 +7,7 @@ module.exports = (grunt) ->
           bare: true
         }
         files: {
-          'public/base.js': 'lib/web/bokki.litcoffee'
+          'public/bokki-nodep.js': 'lib/web/bokki.litcoffee'
         }
       }
     }
@@ -16,7 +16,8 @@ module.exports = (grunt) ->
       dist: {
         src: [
           'node_modules/async/lib/async.js'
-          'public/base.js'
+          'public/js/underscore-min.js'
+          'public/bokki-nodep.js'
         ]
         dest: 'public/bokki.js'
       }
