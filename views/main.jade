@@ -2,6 +2,12 @@ extends layout
 
 block contents
   div(ng-controller='BokkiCtrl')
+    {{owner}}/{{repo}}/{{path}}
+    div(ng-repeat='rev in revs')
+      {{rev.commit}} {{rev.blob}}
+      br
+      pre
+        {{rev.content}}
 
 block scripts
   script(src="/bokki.js")

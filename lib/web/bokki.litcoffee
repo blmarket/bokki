@@ -1,6 +1,15 @@
 Bokki
 -----
 
+## 도우미 함수들
+
+* `async`, _ : async의 parallel과 underscore의 extend 함수를 빌려 쓴다.
+underscore는 coffee로 비슷하게 만들 수 있지만 그냥... 귀차늠.
+
+* `base64_decode` : node에선 base64 decode를 쉽게 할 수 있지만 client
+side에서는 Buffer가 없으므로 자체 구현해서 쓴다. github에서 blob content가
+base64 encoded로 돌아오는 경우가 있어서 사용함.
+
     base64_decode = (input) ->
       keyStr = "ABCDEFGHIJKLMNOP" +
         "QRSTUVWXYZabcdef" +
@@ -30,6 +39,17 @@ Bokki
 
       return output
 
+* myPick : underscore의 pick과 동일함.
+
+    myPick = (obj, picks...) ->
+      ret = {}
+      ret[pick] = obj[pick] for pick in picks
+      return ret
+
+## 메인 함수
+
+BokkiCtrl은 angularjs Controller임. $scope, $resource, $http를 사용함.
+
     BokkiCtrl = ($scope, $resource, $http) ->
       commits_api = $resource(
         'https://api.github.com/repos/:owner/:repo/commits/:sha'
@@ -42,18 +62,14 @@ Bokki
       $scope.owner = 'blmarket'
       $scope.repo = 'icpc'
 
-      console.log $scope
-
-      data = commits_api.query {
-        owner: 'blmarket', repo: 'icpc', path: $scope.path
-      }, ->
+      data = commits_api.query myPick($scope, 'owner', 'repo', 'path'), ->
         toTask = (sha) ->
           return (cb) ->
-            ret = commits_api.get { owner: 'blmarket', repo: 'icpc', sha: sha }, ->
+            ret = commits_api.get _.extend(myPick($scope, 'owner', 'repo'), { sha: sha }), ->
               for file in ret.files
                 if file.filename == $scope.path
                   blob_sha = file.sha
-                  blob_obj = blob_api.get { owner: 'blmarket', repo: 'icpc', sha: blob_sha }, ->
+                  blob_obj = blob_api.get _.extend(myPick($scope, 'owner', 'repo'), { sha: blob_sha }), ->
                     if blob_obj.encoding == 'base64'
                       blob_obj.content = base64_decode(blob_obj.content)
                     cb(null, {
@@ -65,5 +81,13 @@ Bokki
 
         tasks = (toTask(item.sha) for item in data)
 
-        async.parallel tasks, (err, blobs) ->
-          console.log blobs
+각 Commit에 대해 Blob들을 꺼내왔으면 이것들을 revision으로 칭한다.
+전체 revision 데이터는 통짜로 $scope.revs에 들어있게 되며, 이 통으로
+넣는게 너무 커지면 한번에 다 긁는게 아니라, 필요한 커밋만 긁는 식으로
+개선해나갈 생각이다.(현재 보는 커밋 +-5개 커밋만 blob을 긁어오고
+기다렸다가 사용자가 이동하면 거기에 맞춰 근처 blob들을 새로 캐시하는)
+
+        async.parallel tasks, (err, revs) ->
+          $scope.revs = revs
+          $scope.rev_index = 0
+          console.log revs
