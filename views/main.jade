@@ -3,7 +3,7 @@ extends layout
 block contents
   div(ng-controller='BokkiCtrl')
     {{owner}}/{{repo}}/{{path}} : {{rev_index}}
-    div(ng-if='checker')
+    div(ng-if='revs && rev_index == 0')
       p First Commit
     div(ng-if='revs && rev_index == revs.length')
       p Last Commit
