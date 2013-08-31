@@ -50,7 +50,10 @@ base64 encoded로 돌아오는 경우가 있어서 사용함.
 
 BokkiCtrl은 angularjs Controller임. $scope, $resource, $http를 사용함.
 
+    bokki = null
     BokkiCtrl = ($scope, $resource, $http) ->
+      bokki = $scope
+
       commits_api = $resource(
         'https://api.github.com/repos/:owner/:repo/commits/:sha'
       )
@@ -61,6 +64,15 @@ BokkiCtrl은 angularjs Controller임. $scope, $resource, $http를 사용함.
       $scope.path = 'blmarket/GearsDiv1.cpp'
       $scope.owner = 'blmarket'
       $scope.repo = 'icpc'
+      $scope.rev_index = 0
+
+      $scope.pressLeft = ->
+        return unless $scope.revs
+        $scope.$apply -> $scope.rev_index = if $scope.rev_index > 0 then $scope.rev_index - 1 else 0
+
+      $scope.pressRight = ->
+        return unless $scope.revs
+        $scope.$apply -> $scope.rev_index = if $scope.rev_index < $scope.revs.length then $scope.rev_index + 1 else $scope.revs.length
 
       data = commits_api.query myPick($scope, 'owner', 'repo', 'path'), ->
         toTask = (sha) ->
@@ -88,6 +100,14 @@ BokkiCtrl은 angularjs Controller임. $scope, $resource, $http를 사용함.
 기다렸다가 사용자가 이동하면 거기에 맞춰 근처 blob들을 새로 캐시하는)
 
         async.parallel tasks, (err, revs) ->
-          $scope.revs = revs
+          $scope.revs = revs # 이거 왜 $apply 없이 해도 되지?
           $scope.rev_index = 0
           console.log revs
+
+왼쪽 오른쪽 키바인딩을 설정한다.
+
+    $(window).keyup (ev) ->
+      scope = angular.element()
+      bokki.pressLeft() if ev.keyCode == 37
+      bokki.pressRight() if ev.keyCode == 39
+

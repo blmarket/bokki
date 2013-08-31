@@ -2,12 +2,18 @@ extends layout
 
 block contents
   div(ng-controller='BokkiCtrl')
-    {{owner}}/{{repo}}/{{path}}
+    {{owner}}/{{repo}}/{{path}} : {{rev_index}}
+    div(ng-if='checker')
+      p First Commit
+    div(ng-if='revs && rev_index == revs.length')
+      p Last Commit
+    div(ng-if='revs && rev_index != 0 && rev_index != revs.length')
+      p Diff View
     div(ng-repeat='rev in revs')
       {{rev.commit}} {{rev.blob}}
       br
       pre
         {{rev.content}}
 
-block scripts
+block stylesheets
   script(src="/bokki.js")
