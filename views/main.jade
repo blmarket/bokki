@@ -1,7 +1,7 @@
 extends layout
 
 block contents
-  div(ng-controller='BokkiCtrl')
+  div(ng-controller='BokkiCtrl', ng-init="load('blmarket', 'icpc', 'blmarket/GearsDiv1.cpp')")
     span {{owner}}/{{repo}}/{{path}} 
     span(ng-if='revs') : {{rev_index}}
     div(ng-if='!revs')
