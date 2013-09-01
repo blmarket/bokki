@@ -7,10 +7,10 @@ block contents
     div(ng-if='!revs')
       p Now Loading...
     div(ng-if='revs && rev_index == 0')
-      p First Commit
+      p First Revision
       pre: {{revs[0].content}}
     div(ng-if='revs && rev_index == revs.length')
-      p Last Commit
+      p Latest Revision
       pre: {{revs[revs.length-1].content}}
     div(ng-if='revs && rev_index != 0 && rev_index != revs.length')
       p Diff View

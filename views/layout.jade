@@ -5,27 +5,17 @@ html(ng-app='bokki')
     title TODO: TITLE SHOULD BE HERE
     link(rel="stylesheet", href="/css/bootstrap.min.css")
     style(type="text/css").
-      body {
-        padding-top: 60px;
-      }
-
       tbody {
         font-size: 12px;
       }
+
     script(src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js").
     script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js").
     script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-resource.min.js").
-    script(src="/js/bootstrap.min.js").
+    // script(src="/js/bootstrap.min.js").
     block stylesheets
 
   body
-    .navbar.navbar-fixed-top
-      .navbar-inner
-        .container
-          a.brand(href="/") Bokki
-          ul.nav
-            li.active: a(href="/login") Login
-            li: a(href="#") other items
     .container
       block contents
 

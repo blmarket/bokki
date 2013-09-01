@@ -127,6 +127,7 @@ BokkiCtrl은 angularjs Controller임. $scope, $resource, $http를 사용함.
                     })
                   return
 
+        commits = commits.reverse()
         tasks = (toTask(item.sha) for item in commits)
 
 각 Commit에 대해 Blob들을 꺼내왔으면 이것들을 revision으로 칭한다.
