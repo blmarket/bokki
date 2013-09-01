@@ -107,7 +107,6 @@ BokkiCtrl은 angularjs Controller임. $scope, $resource, $http를 사용함.
 왼쪽 오른쪽 키바인딩을 설정한다.
 
     $(window).keyup (ev) ->
-      scope = angular.element()
       bokki.pressLeft() if ev.keyCode == 37
       bokki.pressRight() if ev.keyCode == 39
 
