@@ -68,11 +68,11 @@ BokkiCtrl은 angularjs Controller임. $scope, $resource, $http를 사용함.
 
       $scope.pressLeft = ->
         return unless $scope.revs
-        $scope.$apply -> $scope.rev_index = if $scope.rev_index > 0 then $scope.rev_index - 1 else 0
+        $scope.rev_index = if $scope.rev_index > 0 then $scope.rev_index - 1 else 0
 
       $scope.pressRight = ->
         return unless $scope.revs
-        $scope.$apply -> $scope.rev_index = if $scope.rev_index < $scope.revs.length then $scope.rev_index + 1 else $scope.revs.length
+        $scope.rev_index = if $scope.rev_index < $scope.revs.length then $scope.rev_index + 1 else $scope.revs.length
 
       data = commits_api.query myPick($scope, 'owner', 'repo', 'path'), ->
         toTask = (sha) ->
@@ -107,6 +107,6 @@ BokkiCtrl은 angularjs Controller임. $scope, $resource, $http를 사용함.
 왼쪽 오른쪽 키바인딩을 설정한다.
 
     $(window).keyup (ev) ->
-      bokki.pressLeft() if ev.keyCode == 37
-      bokki.pressRight() if ev.keyCode == 39
+      bokki.$apply( -> bokki.pressLeft()) if ev.keyCode == 37
+      bokki.$apply( -> bokki.pressRight()) if ev.keyCode == 39
 
