@@ -12,11 +12,13 @@ module.exports = (grunt) ->
       }
     }
     concat: {
-      options: { separator: ';' }
+      options: { separator: ';\n' }
       dist: {
         src: [
           'node_modules/async/lib/async.js'
           'public/js/underscore-min.js'
+          'contrib/diffview.js'
+          'contrib/difflib.js'
           'public/bokki-nodep.js'
         ]
         dest: 'public/bokki.js'

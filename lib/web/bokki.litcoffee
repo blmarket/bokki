@@ -46,12 +46,28 @@ base64 encoded로 돌아오는 경우가 있어서 사용함.
       ret[pick] = obj[pick] for pick in picks
       return ret
 
+* Our app configuration.
+
+$resource를 쓰기 위해 ngResource를 dependency로 추가해야 하고,
+diff view를 만들기 위해 compile을 사용하고 있다.
+
+    angular.module 'bokki', [ 'ngResource' ], ($compileProvider) ->
+      $compileProvider.directive 'compile', ($compile) ->
+        (scope, element, attrs) ->
+          scope.$watch(
+            (scope) ->
+              return scope.$eval(attrs.compile)
+            (value) ->
+              element.html(scope.calc_diff(value))
+              $compile(element.contents())(scope)
+          )
+
 ## 메인 함수
 
 BokkiCtrl은 angularjs Controller임. $scope, $resource, $http를 사용함.
 
     bokki = null
-    BokkiCtrl = ($scope, $resource, $http) ->
+    BokkiCtrl = ($scope, $compile, $resource, $http) ->
       bokki = $scope
 
       commits_api = $resource(
@@ -61,6 +77,25 @@ BokkiCtrl은 angularjs Controller임. $scope, $resource, $http를 사용함.
         'https://api.github.com/repos/:owner/:repo/git/blobs/:sha'
       )
 
+      calc_diff = ->
+        return unless $scope.revs
+        idx = $scope.rev_index
+        left = difflib.stringAsLines($scope.revs[idx-1].content)
+        right = difflib.stringAsLines($scope.revs[idx].content)
+        contextSize = null # 전체 diff일 경우 null, 근처 n줄만 보고 싶으면 n.
+
+        sm = new difflib.SequenceMatcher(left, right)
+        return diffview.buildView {
+          baseTextLines: left
+          newTextLines: right
+          opcodes: sm.get_opcodes()
+          baseTextName: "Revision #{idx-1}"
+          newTextName: "Revision #{idx}"
+          contextSize: contextSize
+          viewType: 1
+        }
+
+      $scope.calc_diff = calc_diff
       $scope.path = 'blmarket/GearsDiv1.cpp'
       $scope.owner = 'blmarket'
       $scope.repo = 'icpc'

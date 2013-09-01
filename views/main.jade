@@ -14,11 +14,9 @@ block contents
       pre: {{revs[revs.length-1].content}}
     div(ng-if='revs && rev_index != 0 && rev_index != revs.length')
       p Diff View
-      div(id="diff{{rev_index}}", ng-init='calc_diff(rev_index)')
+      div(id="diff{{rev_index}}", compile='rev_index')
 
 block stylesheets
   script(src="/bokki.js")
 
   link(rel="stylesheet", href="http://blmarket.net/~blmarket/jsdifflib/diffview.css")
-  script(src="http://blmarket.net/~blmarket/jsdifflib/diffview.js")
-  script(src="http://blmarket.net/~blmarket/jsdifflib/difflib.js")
