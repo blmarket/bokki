@@ -7,35 +7,22 @@ module.exports = (grunt) ->
           bare: true
         }
         files: {
-          'public/bokki-nodep.js': 'lib/web/bokki.litcoffee'
+          'public/bokki-nodep.js': 'lib/bokki.litcoffee'
         }
       }
     }
+    bower: { install: {} }
     concat: {
       options: { separator: ';\n' }
       dist: {
         src: [
-          'node_modules/async/lib/async.js'
-          'public/js/underscore-min.js'
+          'bower_components/async/lib/async.js'
+          'bower_components/underscore/underscore-min.js'
           'contrib/diffview.js'
           'contrib/difflib.js'
           'public/bokki-nodep.js'
         ]
         dest: 'public/bokki.js'
-      }
-    }
-    uglify: {
-      options: {
-        mangle: {} # default option, set to false if you wanna preserve class names.
-      }
-      my_target: {
-        files: {
-          'public/dist/production.min.js' : [
-            'public/collector/ba-postmessage.min.js'
-            'public/collector/mall.js'
-            'public/dist/plugin.js'
-          ]
-        }
       }
     }
     jade: {
@@ -52,9 +39,7 @@ module.exports = (grunt) ->
 
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-concat'
-  # grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-jade'
+  grunt.loadNpmTasks 'grunt-bower-task'
 
-  # grunt.registerTask 'uncompressed', [ 'coffee', 'concat' ]
-  grunt.registerTask 'default', [ 'coffee', 'jade', 'concat' ]
-
+  grunt.registerTask 'default', [ 'bower', 'coffee', 'jade', 'concat' ]

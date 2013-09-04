@@ -1,0 +1,30 @@
+{
+  "name": "bokki",
+  "main": "lib/bokki.litcoffee",
+  "version": "0.1.0",
+  "homepage": "https://github.com/blmarket/bokki",
+  "authors": [
+    "Jeong",
+    "Heon <blmarket@gmail.com>"
+  ],
+  "description": "self code reviewing tool",
+  "keywords": [
+    "git",
+    "self",
+    "review"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.2.0-rc.1",
+    "underscore": "~1.5.1",
+    "async": "~0.2.5"
+  }
+}
