@@ -5,6 +5,10 @@ Self Code Reviewing Tool using Node.js
 
 ## ChangeList
 
+* 0.1.0
+
+Bokki is now full client-side angularjs app.
+
 * 0.0.2
 
 Decided to use only web parts and github api.

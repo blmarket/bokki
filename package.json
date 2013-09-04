@@ -1,6 +1,6 @@
 {
-  "name": "node-bokki",
-  "version": "0.0.2",
+  "name": "bokki",
+  "version": "0.1.0",
   "description": "self code reviewing tool",
   "main": "app.js",
   "scripts": {
@@ -9,10 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/blmarket/node-bokki"
+    "url": "https://github.com/blmarket/bokki"
   },
   "keywords": [
     "git",
+    "github",
+    "self review",
     "code",
     "review"
   ],
@@ -20,15 +22,9 @@
   "license": "MIT",
   "dependencies": {
     "coffee-script": "~1.6.3",
-    "step": "0.0.5",
     "underscore": "~1.5.1",
-    "express": "~3.0.6",
     "jade": "~0.28.1",
-    "async": "~0.2.9",
-    "request": "~2.16.6",
-    "passport": "~0.1.16",
-    "passport-github": "~0.1.5",
-    "connect-redis": "~1.4.5"
+    "async": "~0.2.9"
   },
   "devDependencies": {
     "should": "~1.2.2",
