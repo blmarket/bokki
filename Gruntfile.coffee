@@ -11,7 +11,7 @@ module.exports = (grunt) ->
         }
       }
     }
-    bower: { install: {} }
+    bower: { install: { options: { copy: false } } }
     concat: {
       options: { separator: ';\n' }
       dist: {
